@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Quote = require('../models/Quotes');
+const quote = require('../models/Quotes');
 
 async function connectToDb() {
     try {
@@ -16,7 +16,9 @@ async function connectToDb() {
 //a function to insert the quotes into your MongoDB database
 async function addQuotesToDb(allQuotes) {
     try {
-        await Quote.insertMany(allQuotes);
+        for (const { Quote, Author } of allQuotes) {
+            await quote.create({ quote: Quote, author: Author });
+        }
         console.log('Quotes inserted successfully');
     } catch (err) {
         console.log('Error inserting quotes',err);

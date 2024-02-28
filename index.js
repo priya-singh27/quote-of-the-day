@@ -1,11 +1,18 @@
+const cron = require('node-cron');
 const express = require('express');
 const app = express();
-const users = require('./routes/user');
 const { connectToDb, addQuotesToDb } = require('./utils/db');
 const quotesData = require('./readQuotes');
-app.use(express.json());
 
-app.use('/api/user', users);
+// Schedule a task to run every day at 10 AM
+cron.schedule('0 10 * * *', () => {
+    sendDailyQuotes(); 
+});
+
+
+
+require('./utils/routes')(app);
+require('./utils/config')();
 
 try {
     connectToDb();

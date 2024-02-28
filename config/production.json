@@ -1,0 +1,7 @@
+{
+    "jwtPrivateKey":"quotes_jwtPrivateKey",
+    "email":{
+        "password":"strongpassword@12345"
+    }
+}
+ 

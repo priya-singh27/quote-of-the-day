@@ -11,13 +11,15 @@ const createUser = async (req, res) => {
 
     user = new User({
         email: req.body.email,
-        password:req.body.password
+        password: req.body.password,
+        isLoggedIn:true
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     user = await user.save();
 
     const token = user.generateAuthToken();
+    
 
     res.header('x-auth-token', token).send(user.email);
 };

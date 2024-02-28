@@ -18,6 +18,7 @@ const authenticate = async (req, res) => {
         return res.status(400).send('Either email or password is incorrect.')
     }
 
+    user.isLoggedIn = true;
     const token = user.generateAuthToken();
     res.send(token);
 }
