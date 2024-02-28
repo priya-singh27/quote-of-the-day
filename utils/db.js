@@ -1,0 +1,32 @@
+const mongoose = require('mongoose');
+const Quote = require('../models/Quotes');
+
+async function connectToDb() {
+    try {
+        await mongoose.connect('mongodb://0.0.0.0:27017/quotes_DB');
+        console.log('Connect to mongoDB');
+
+    }
+    catch (err) {
+        console.log('Failed to connect to MongoDB:', err);
+        throw err;
+    }
+}
+
+//a function to insert the quotes into your MongoDB database
+async function addQuotesToDb(allQuotes) {
+    try {
+        await Quote.insertMany(allQuotes);
+        console.log('Quotes inserted successfully');
+    } catch (err) {
+        console.log('Error inserting quotes',err);
+    } //finally {
+    //     // Disconnect from MongoDB after insertion
+    //     mongoose.disconnect();
+    // }
+}
+
+module.exports = {
+    connectToDb,
+    addQuotesToDb
+}

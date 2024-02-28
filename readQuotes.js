@@ -14,4 +14,4 @@ const quotesData = JSON.parse(fs.readFileSync('quotes.json', 'utf-8'));
 //         console.log('Error parsing JSON:',error);
 //     }
 // });
-module.exports.quotesData = quotesData;
+module.exports= quotesData;

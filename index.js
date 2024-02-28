@@ -1,10 +1,20 @@
-const mongoose = require('mongoose');
-const { addQuotesToDatabase } = require('./models/Quotes');
-const { quotesData } = require('./readQuotes');
+const express = require('express');
+const app = express();
+const users = require('./routes/user');
+const { connectToDb, addQuotesToDb } = require('./utils/db');
+const quotesData = require('./readQuotes');
+app.use(express.json());
 
-mongoose.connect('mongodb://0.0.0.0:27017/quotes',)
-    .then(() => { 
-        console.log('connected to mongoDB...');
-        addQuotesToDatabase(quotesData);
-    })
-    .catch(err => console.log('Failed to connect to mongoDB..', err));
+app.use('/api/user', users);
+
+try {
+    connectToDb();
+    addQuotesToDb(quotesData);
+} catch (err) {
+    console.log('An error occurred:',err);
+}
+
+
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port ${port}..`));
