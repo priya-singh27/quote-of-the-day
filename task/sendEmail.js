@@ -1,3 +1,4 @@
+const getRandomQuote = require('../repository/getQuote');
 const config = require('config');
 const nodemailer = require('nodemailer');
 const User = require('../models/users');
@@ -5,9 +6,10 @@ const User = require('../models/users');
 async function sendEmailsToActiveUsers() {
     try {
         const activeUsers = await User.find({ isLoggedIn: true }); // Retrieve active users
+        const body = await getRandomQuote();
 
         for (const user of activeUsers) {
-            await sendEmail(user._id,'subject','body');
+            await sendEmail(user._id,'Quote For Today',body);
         }
 
         console.log('Emails sent to active users successfully.');
@@ -18,19 +20,20 @@ async function sendEmailsToActiveUsers() {
 
 async function sendEmail(userId, subject, text) {
 
-    try {
+    try{
         //Load User
         const user = await User.findById(userId);
         if (!user) {
             console.log('User not find');
             return;
         }
+        console.log(config.get('email.password'));
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: 'priyasingh86906@gmail.com',
-                pass: config.get('email.password')
+                pass:config.get('email.password'),// 'strongpassword@12345'
             }
         });
 
@@ -48,3 +51,4 @@ async function sendEmail(userId, subject, text) {
     }
     
 }
+module.exports = sendEmailsToActiveUsers ;

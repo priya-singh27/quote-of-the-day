@@ -4,7 +4,7 @@ const quote = require('../models/Quotes');
 async function connectToDb() {
     try {
         await mongoose.connect('mongodb://0.0.0.0:27017/quotes_DB');
-        console.log('Connect to mongoDB');
+        console.log('Connected to mongoDB');
 
     }
     catch (err) {
