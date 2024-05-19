@@ -33,7 +33,7 @@ async function sendEmail(userId, subject, text) {
             service: 'gmail',
             auth: {
                 user: 'priyasingh86906@gmail.com',
-                pass:config.get('email.password'),// 'strongpassword@12345'
+                pass:config.get('email.password'),
             }
         });
 
